@@ -1,0 +1,9 @@
+WebRoot/WEB-INF/classes
+.externalToolBuilders
+.idea
+.myeclipse
+.settings
+.classpath
+.mymetadata
+.project
+app_extjs.iml

@@ -1,0 +1,12 @@
+Ext.Ajax.request({
+	url:'loginServer.jsp',
+	params:{
+		username:'lbb',
+		password:'111'
+	},
+	callback:function(options,success,response){
+		if(success){
+			alert(response.responseText);
+		}
+	}
+})

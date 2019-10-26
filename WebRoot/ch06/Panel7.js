@@ -1,0 +1,43 @@
+Ext.onReady(
+	function() {
+		new Ext.Panel({
+			applyTo:"pn",
+			width:400,
+			height:300,
+			title:"Panel",
+			layout:"column",
+			items:[
+				{
+					title:"子面板一",
+					columnWidth:.2,
+					height:200,
+					html:"子面板一本体内容"
+				},
+				{
+					title:"子面板二",
+					columnWidth:.2,
+					height:200,
+					html:"子面板二本体内容"
+				},
+				{
+					title:"子面板三",
+					columnWidth:.2,
+					height:200,
+					html:"子面板三本体内容"
+				},
+				{
+					title:"子面板四",
+					columnWidth:.2,
+					height:200,
+					html:"子面板四本体内容"
+				},
+				{
+					title:"子面板五",
+					columnWidth:.2,
+					height:200,
+					html:"子面板五本体内容"
+				}
+			]
+		});
+	}
+);

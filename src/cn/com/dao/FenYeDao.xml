@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="cn.com.dao.FenYeDao">
+	<select id="fenye" parameterType="map" resultType="hashmap">
+		select t.measureid as measureid,
+			   t.measurename as measurename
+  		  from (select rownum rn, m.*
+                from (select d.measure_id   as measureid,
+                       d.measure_name as measurename
+                  from dmd_measure d where
+                    d.parent_measure_id like '%IVT%' or 
+                  	d.parent_measure_id like '%FUND%'
+                  ) m
+         where rownum &lt;=(#{start}+#{limit})) t
+               where t.rn >#{start}
+	</select>
+
+	<select id="totalProperty" resultType="integer">
+		select count(1) from dmd_measure d where
+                    d.parent_measure_id like '%IVT%' or 
+                  	d.parent_measure_id like '%FUND%'
+	</select>
+</mapper>

@@ -1,0 +1,9 @@
+Ext.define('datao.model.MenuModel',{
+	fields:[
+		{name:'id',type:'string'},
+		{name:'text',type:'string'},
+		{name:'leaf',type:'boolean'},
+		{name:'type',type:'string'},
+		{name:'handler',type:'handler'}
+	]
+})

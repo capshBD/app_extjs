@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="cn.com.dao.MenuDao">
+	<select id="getChildrenByParent" parameterType="string" resultType="cn.com.xml.Menu">
+	select s.resource_id as id,
+       s.resource_name as text,
+       s.handler,
+       s.icon as iconCls,
+       s.resource_type as type,
+       case when exists
+        (select 1
+          from sys_resource t
+         where s.resource_id = t.parent_resource_id) then '0' else '1' end leaf
+          from sys_resource s
+         where s.parent_resource_id =#{value}
+	</select>
+	
+	<select id="getBankOrg" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select a.bank_org_id, a.bank_org_name
+		   from (select t.*, rownum as rn
+		           from (select bank_org_id,
+		           		 bank_org_name from dmd_bank_inter_org
+		           		 <if test="type != null and type !=''">
+		           		 where bank_org_name like '%'||#{type}||'%'
+		           		 </if> ) t ) a
+		  where a.rn &gt; #{start}
+		    and a.rn &lt;= (#{start}+#{limit})
+	</select>
+	
+	<select id="getBankOrgCount" parameterType="java.util.HashMap" resultType="int">
+		select count(1) from dmd_bank_inter_org
+		           		 <if test="type != null and type !=''">
+		           		 where bank_org_name like '%'||#{type}||'%'
+		           		 </if>
+	</select>
+	
+	<update id="updateMenu" parameterType="java.util.HashMap">
+		<choose>
+			<when test="type =='add'">
+				insert into sys_resource (resource_id,resource_name,parent_resource_id) values(#{id},#{text},#{parentId})
+			</when>
+			<otherwise>
+				update sys_resource s set s.resource_name=#{text} where s.resource_id=#{id}
+			</otherwise>
+		</choose>
+	</update>
+	
+	<select id="findMenuById" parameterType="string" resultType="int">
+		select count(1) from sys_resource s where s.resource_id=#{id}
+	</select>
+	
+	<delete id="delMenuById" parameterType="string">
+		delete from sys_resource s where s.resource_id  in(${value})
+	</delete>
+	
+	<select id="getBankTreeList" parameterType="string" resultType="cn.com.xml.Bank">
+		select d.bank_org_id as id,
+	       d.bank_org_name as text,
+	       d.parent_bank_org_id as parentId,
+	       case 
+	        when exists (select 1 from dmd_bank_inter_org db where db.parent_bank_org_id=d.bank_org_id)
+	        then 0
+	          else 
+	            1
+	            end as leaf  
+	 	from 
+	       dmd_bank_inter_org d
+	       where d.parent_bank_org_id=#{param}
+	       order by d.bank_org_id 
+		
+	</select>
+</mapper>

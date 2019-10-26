@@ -1,0 +1,38 @@
+Ext.onReady(
+	function() {
+		new Ext.Panel({
+			applyTo:"pn",
+			width:400,
+			height:300,
+			title:"Panel",
+			layout:"border",
+			items:[
+				{
+					title:"north",
+					region:"north",
+					html:"north"
+				},
+				{
+					title:"south",
+					region:"south",
+					html:"south"
+				},
+				{
+					title:"west",
+					region:"west",
+					html:"west"
+				},
+				{
+					title:"east",
+					region:"east",
+					html:"east"
+				},
+				{
+					title:"center",
+					region:"center",
+					html:"center"
+				}
+			]
+		});
+	}
+);

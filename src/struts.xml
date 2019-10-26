@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+
+<struts>
+	<!-- 配置开发者模式 -->
+	<constant name="struts.devMode" value="true"/>
+		<!-- 配置自动重新加载 -->
+	<constant name="struts.configuration.xml.reload" value="true"/>
+	
+	 <package name="hello" namespace="/" extends="json-default">
+     	<action name="jsonData" class="cn.com.action.GetPersonAction" method="jsonTest">
+            <result name="success" type="json"></result>
+     	</action>
+     	
+     	<action name="fenye" class="cn.com.action.FenYeAction" method="fenye">
+     		<result name="success" type="json"></result>
+     	</action>
+     	
+     	<action name="userFinfo" class="cn.com.action.UserFinAction">
+     		<result name="success" type="json"><param name="root">jsonResult</param></result>
+     	</action>
+     	<action name="menuInfo" class="cn.com.action.MenuAction">
+     		<result name="success" type="json"><param name="root">jsonResult</param></result>
+     	</action>
+     	<action name="menuDel" class="cn.com.action.MenuAction" method="menuDel">
+     		<result name="success" type="json"><param name="root">jsonResult</param></result>
+     	</action>
+     	<action name="menuUpdate" class="cn.com.action.MenuAction" method="menuUpdate">
+     		<result name="success" type="json"><param name="root">jsonResult</param></result>
+     	</action>
+     	<action name="bankInfo" class="cn.com.action.MenuAction" method="getBankOrg">
+     		<result name="success" type="json"><param name="root">jsonResult</param></result>
+     	</action>
+     	<action name="calcNum" class="cn.com.action.CalcAction">
+     		<result name="success" type="json"><param name="root">jsonResult</param></result>
+     	</action>
+     	<action name="menuBank" class="cn.com.action.MenuAction" method="getBankList">
+     		<result name="success" type="json"><param name="root">jsonResult</param></result>
+     	</action>
+     </package>
+</struts>

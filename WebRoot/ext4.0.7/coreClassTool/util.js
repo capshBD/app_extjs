@@ -7,10 +7,37 @@
  * Ext.getBody() 返回当前document的body对象当作Ext.Element。
  * Ext.getCmp() Ext.ComponentManagerView这个单例对象的get()方法的简写 返回ext的组件对象
  * Ext.core.Element.fly() 和 Ext.fly（）一样效果
- * Ext.select（） 	//类似于jquery的选择器 返回Ext.CompositeElement组合元素
+ * Ext.select（） 	//类似于jquery的选择器 返回Ext.CompositeElement组合元素，然后可以进行each()遍历，遍历函数里面的this指的是El.Flyweight 的对象
  *
  * Ext.dom.Element对象常用方法
  * addKeyMap（） 为元素绑定一些事件 返回Ext.util.KeyMap
+ * addClsOnOver() 为元素添加鼠标经过样式改变事件
+ *
+ * Ext.util.CSS 单例对象常用方法
+ * Ext.util.CSS.createStyleSheet(样式表，样式id)
+ * Ext.util.CSS.getRule('样式选择器',是否刷新缓存) 返回CSSStyleRule;
+ * Ext.util.CSS.swapStyleSheet(样式id,otherCSSFile); 被某个样式id的样式切换成引用文件的规则
+
+   Ext.util.DelayedTask延时任务类的方法 做表单延时验证
+   delay（interval，fn,scope ）interval:最少时间间隔  fn:调用的函数 scope：调用的函数作用域
+   Ext.util.TaskRunner 定时任务 一般用他的单例Ext.TaskManager
+   start（config） 方法 config常用的配置属性有 run:调用的函数 	interval：调用的频率
+
+ Ext的集合类
+   Ext.util.MixedCollection
+   add(String key, Object o ) 添加一个项目到集合中. 完成以后触发 add 事件
+   addAll( Object/Array objs ) 添加一个数组,或者对象的元素到集合中.
+ 事件
+ add( Number index, Object o, String key, Object eOpts )
+ 当添加一个项到 集合中时触发.
+ index : Number
+ 项目被添加后的索引.
+
+ o : Object
+ 添加的项目.
+
+ key : String
+ 关联所添加项目的key
  */
 
 Ext.onReady(function(){
@@ -67,13 +94,14 @@ Ext.onReady(function(){
     });
     
     Ext.get('p').addClsOnOver('psy');
-    
+
+    //一个封装类，可以被用于任何元素中。当鼠标按下时触发一个"click"事件
    var ppt=new Ext.util.ClickRepeater(Ext.get('pk'),{
     	delay:3000,
     	interval:4000,
     	stopDefault:true,
     	handler:function(){
-    		console.info("单击我");
+    		alert("单击我");
     	}
     });
     
@@ -82,6 +110,7 @@ Ext.onReady(function(){
     var tk=new Ext.util.DelayedTask();
     //当el元素连续按下的间隔时间不超过500ms,不会验证
     Ext.get('ut').on('keypress',function(){
+    	//将延时函数里面的this指向选取的dom元素
     	 tk.delay(500,function(){
     	 	if(this.getValue().length<10)
     	 	console.log('用户名长度不够');
@@ -113,8 +142,9 @@ Ext.onReady(function(){
     		console.info("遍历"+item.name)
     	});
     	
-    	item3.on('add',function(index,o,key){
+    	item3.on('add',function(index,o,key,opts){
     		console.info("集合有了新成员"+" "+index+" "+o.name+" "+key);
+    		console.info(opts);
     	});
     	
     	item3.add("obj3",{name:'meinv'});

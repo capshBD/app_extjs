@@ -4,11 +4,11 @@ Ext.onReady(function(){
         width:800,
         margin  : '5 0 0 5',//上 右 下 左
         listeners: {
-                //con本toolbar组件，要comp添加的组件，num添加的索引，opts本事件函数
-                add:function(con,comp,num,opts){
-                    console.info(opts);
-                }
-		    },
+            //con本toolbar组件，要comp添加的组件，num添加的索引，opts为一个Object类的对象 里面的add属性指向 本事件add函数
+            add:function(con,comp,num,opts){
+                console.info(opts);
+            }
+        },
         items:[{
             text:'打开文件',
             handler:function(btn){
@@ -19,13 +19,13 @@ Ext.onReady(function(){
             handler:function(){
                 Ext.Msg.prompt('添加','输入按钮',function(btn,text){
                     if(btn=='ok'){
-                       addItems.push(toolbar.add({
+                        addItems.push(toolbar.add({
                             text:text
                         }));
                     }
                 })
             }
-            
+
         },{
             text   : '删除最后插入的项',
             scope  : this,
@@ -38,54 +38,54 @@ Ext.onReady(function(){
                     alert('在工具栏上没有任何选项');
                 }
             }
-            
+
         }]
     });
-    
+
     var addItems=[];
     toolbar.add([{
-            text:'新建文件',
-            handler:btnClick,
-            iconCls:'create',
-            menu:new Ext.menu.Menu({
-                shadow:'drop',
-                items:[{
-                    text:'word',
-                    menu:Ext.menu.Menu({
-                        shadow:'drop',
-                        items:[{
-                             text:'color',
-                             menu:new Ext.menu.ColorPicker()
-                        },{
-                            text:'date',
-                            menu:new Ext.menu.DatePicker(),
-                            icon:'ext4.0.7/resources/icon/time_date.gif'
-                        }]
-                    
-                    })
-                },{
-                    text:'excel'
-                },{
-                    text:'ppt'
-                }]
-            })
+        text:'新建文件',
+        handler:btnClick,
+        iconCls:'create',
+        menu:new Ext.menu.Menu({
+            shadow:'drop',
+            items:[{
+                text:'word',
+                menu:Ext.menu.Menu({
+                    shadow:'drop',
+                    items:[{
+                        text:'color',
+                        menu:new Ext.menu.ColorPicker()
+                    },{
+                        text:'date',
+                        menu:new Ext.menu.DatePicker(),
+                        icon:'ext4.0.7/resources/icon/time_date.gif'
+                    }]
+
+                })
+            },{
+                text:'excel'
+            },{
+                text:'ppt'
+            }]
+        })
     },{
-            text:'保存文件',
-            handler:btnClick    
+        text:'保存文件',
+        handler:btnClick
     },'-',{
         xtype:'textfield',
         hideLabel:true,
         width:100,
         emptyText: '输入搜索词'
     },'->','<a>百度</a>']);
-    
+
     var enableBtn=new Ext.button.Button({
         text:'启动',
         disabled:true,
         scope:this,
         handler:function(){
             enableBtn.disable();
-             toolbar.enable();
+            toolbar.enable();
             disableBtn.enable();
         }
     });
@@ -98,14 +98,14 @@ Ext.onReady(function(){
             enableBtn.enable();
         }
     });
-    
+
     toolbar.add([enableBtn,disableBtn]);
-    
+
     function btnClick(btn){
-     console.info(btn.text);
-       console.info(toolbar.draggable);
+        console.info(btn.text);
+        console.info(toolbar.draggable);
     }
-    
+
     Ext.get('enable').on('click',function(){toolbar.enable()});
     Ext.get('disable').on('click',function(){toolbar.disable()});
 })

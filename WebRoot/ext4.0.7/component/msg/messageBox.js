@@ -1,3 +1,12 @@
+/**
+ * Ext的消息提示框
+ * Ext.MessageBox（别名Msg）是Ext.window.MessageBox的一个单例对象
+ *  常用方法：
+ *  1 alert( String title, String msg, [Function fn], [Object scope] )
+ *  2 prompt( String title, String msg, [Function fn], [Object scope], [Boolean/Number multiline], [String value] )  最后两个参数代表是否支持多行文本和默认值
+ *  3.show( Object config ) 自定义显示配置
+ */
+
 Ext.onReady(function(){
    /* Ext.Msg.alert("提示","消息",function(id){
         console.info(this);

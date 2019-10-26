@@ -1,7 +1,15 @@
+/**
+ * 全局Ext对象下面的一些单例对象的工具函数
+ * 如 Ext.Object
+ * Ext.Array
+ * Ext.String
+ * Ext.Function
+ */
 Ext.onReady(function(){
     var obj1={name:'zhangsan',age:11};
     
-    /*var result=Ext.Object.chain(obj1);
+    /*var result=Ext.Object.chain(obj1); Ext 4.1版本才有
+    console.info(result);
     console.info("新创建对象的原型属性name:"+result.name);*/
     
     var person = {
@@ -10,7 +18,7 @@ Ext.onReady(function(){
 	    loves: ['food', 'sleeping', 'wife']
 	};
 	
-    //each 变量当前对象 然后毁掉函数中暴露出三个属性 key、value、self 如果回调函数返回false则停止迭代
+    //each 变量当前对象 然后回调函数中暴露出三个属性 key、value、self 如果回调函数返回false则停止迭代
 	Ext.Object.each(person, function(key, value, myself) {
 	    console.log(key + ":" + value);
 	
@@ -25,7 +33,7 @@ Ext.onReady(function(){
 	console.info(obj2);
 	console.info(obj3);
     
-    //递归
+    //递归 封装对象属性和数组属性
     console.info(Ext.Object.fromQueryString(
     "username=Jacky&"+
     "dateOfBirth[day]=1&dateOfBirth[month]=2&dateOfBirth[year]=1911&"+

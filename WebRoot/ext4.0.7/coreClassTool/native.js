@@ -93,5 +93,15 @@ Ext.onReady(function(){
       //第三个数组参数为传递给函数的实参，如果第四个参数为true，则三个数组参数追加到原来函数参数的后面,如果第四个参数为数字，则插入到指定位置
     //  Ext.Function.bind(getColor,fobj,['apple',12],true)(fobj.name,fobj.age);
       Ext.Function.bind(getColor,fobj,[45,'admin'],1)(fobj.name,fobj.age);//flower,45,admin,11
+
+    var o={
+        name:"mike",
+        getName:function(){
+            console.info(this.name);
+        }
+    };
+    //为函数定义别名 函数的this任然指向o
+    var fn=Ext.Function.alias(o,'getName');
+    fn();
       
 })

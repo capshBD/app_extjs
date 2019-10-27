@@ -12,6 +12,13 @@
  * Ext.dom.Element对象常用方法
  * addKeyMap（） 为元素绑定一些事件 返回Ext.util.KeyMap
  * addClsOnOver() 为元素添加鼠标经过样式改变事件
+ * appendChild( String/HTMLElement/Ext.dom.AbstractElement el ) 将传递进来的元素(列表)添加到当前元素的子元素
+ * createChild( Object config, [HTMLElement insertBefore], [Boolean returnDom] ) 创建传递进来的DomHelper配置，并将其添加到当前元素后面，或者可以选择将 其插入到所传递的子元素的前面
+ *
+ * Ext.dom.Helper DomHelper 类提供了一个抽象层，并且明显支持通过DOM创建元素或使用HTML片段
+ *
+ * Ext.dom.Query
+ * 本类提供了高性能的selector/ XPath的处理，通过查询编译成可重用的功能. 新的伪类和匹配器可以使用插入. 它适用于HTML和XML文档(若传入一个内容节点).
  *
  * Ext.util.CSS 单例对象常用方法
  * Ext.util.CSS.createStyleSheet(样式表，样式id)
@@ -158,4 +165,47 @@ Ext.onReady(function(){
     	 interval: 1000
     };
     runner.start(task);
+
+// 创建一个速记别名
+	var dh = Ext.DomHelper;
+// 规范对象
+	var spec = {
+		id: 'my-ul',
+		tag: 'ul',
+		cls: 'my-list',
+		// 创建后追加其孩子
+		children: [ // 也可以指定用'cn'代替'children'
+			{tag: 'li', id: 'item0', html: 'List Item 0'},
+			{tag: 'li', id: 'item1', html: 'List Item 1'},
+			{tag: 'li', id: 'item2', html: 'List Item 2'}
+		]
+	};
+	//执行append方法之后 会在id为'my-div'的页面元素中添加配置的spec子元素
+	var list = dh.append(
+		'my-div', // 上下文元素'my-div'可以是id，也可以是实际节点
+		spec      // 规范对象
+	);
+
+	//在my-ul下添加两个同级的li
+	dh.append('my-ul', [
+		{tag: 'li', id: 'item3', html: 'List Item 3'},
+		{tag: 'li', id: 'item4', html: 'List Item 4'}
+	]);
+
+	// 利用模板创建
+	// 创建节点
+	var list = dh.append('my-div2', {tag: 'ul', cls: 'my-list'});
+	var tpl = dh.createTemplate({tag: 'li', id: 'item{0}', html: 'List Item {0}'});
+
+	for(var i = 5; i < 8;i++){
+		tpl.append(list, [i]); // 使用模板附加到实际的节点
+	}
+
+	var html2 = '<p><a id="{0}" href="{1}" class="nav">{2}</a></p>';
+
+	var tpl2 = new Ext.DomHelper.createTemplate(html2);
+	tpl2.append('blog-roll', ['link1', 'http://www.edspencer.net/', "Ed's Site"]);
+	tpl2.append('blog-roll', ['link2', 'http://www.dustindiaz.com/', "Dustin's Site"]);
+	//模板对象调用方法说明: blog-roll:要添加到的父元素节点 后面依次对应数组元素的下标值,也可使用命名参数方式 如'<a id="{id}" href="{url}" class="nav">{text}</a>';
+
 })

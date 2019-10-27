@@ -9,6 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <script type="text/javascript">
  	var pathUrl='<%=path%>';
  	Ext.onReady(function(){
+ 	 //初始化全局的快速提示框实例 和准备任何的快速提示框.
  		  Ext.QuickTips.init();
  	});
  </script>

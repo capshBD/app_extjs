@@ -31,17 +31,8 @@ Ext.onReady(function(){
     function callTest2() {
         console.info(callTest2.caller); //打印出callTest2这个函数是在哪个函数内调用它
     }
-    var o={
-        name:"mike",
-        getName:function(){
-            console.info(this.name);
-        }
-    };
+
     callTest();
-
-
-    var fn=Ext.Function.alias(o,'getName');
-    fn();
 
     Ext.get('btn').on('click',function(){
         var win=Ext.create('Ext.myApp',{width:800,height:600,price:600});

@@ -1,3 +1,10 @@
+/**
+ * Ext.Ajax是Ext.data.Connection的一个单例
+ * 常用方法
+ * abort: 终止一个没有完成的请求
+ * isLoading 判断指定的ajax是否正在执行
+ * parseStatus 返回请求响应的代码
+ */
 Ext.onReady(function(){
         Ext.Ajax.request({
             url:'ajax.jsp',
@@ -12,7 +19,7 @@ Ext.onReady(function(){
         });
         
         Ext.get('button').on('click',function(){
-            //返回Ext.dom.Element对象 返回ElementLoader
+            //返回Ext.dom.Element对象 返回ElementLoader 方便我们重新构建页面
           Ext.get('label').getLoader().load({
             url:'ajaxt.jsp',
             renderer:function(render,response,request){

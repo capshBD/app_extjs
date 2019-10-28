@@ -17,7 +17,7 @@
  *
  * Ext.dom.Helper DomHelper 类提供了一个抽象层，并且明显支持通过DOM创建元素或使用HTML片段
  *
- * Ext.dom.Query
+ * Ext.dom.Query (别名 Ext.query)
  * 本类提供了高性能的selector/ XPath的处理，通过查询编译成可重用的功能. 新的伪类和匹配器可以使用插入. 它适用于HTML和XML文档(若传入一个内容节点).
  *
  * Ext.util.CSS 单例对象常用方法

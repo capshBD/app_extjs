@@ -239,4 +239,6 @@ Ext.onReady(function(){
     //向上选择
     //Ext.ComponentQuery.query('textfield ^ form') 查找给定元素 的父容器 （递归向上查找所有匹配元素)
     //myFormPanel.query("{isDisabled()}"); --可以根据组件的方法进行查找,返回所有isDisabled()返回true的组件
+
+
 })

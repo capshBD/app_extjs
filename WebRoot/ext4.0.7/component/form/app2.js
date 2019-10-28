@@ -21,10 +21,10 @@ Ext.onReady(function(){
             xtype:'textfield',
             name:'age',
             value:'1',
-            inputId:'myname',
-            hideLabel:true
+            inputId:'myname', //给生成的dom元素设置一个id
+            hideLabel:true //隐藏字段标签
         },{
-	        xtype: 'displayfield',
+	        xtype: 'displayfield', //仅仅展示 没有框线
 	        fieldLabel: '分数',
 	        name: 'visitor_score',
 	        value: '11'
@@ -35,8 +35,9 @@ Ext.onReady(function(){
             buttonText: '选择照片'
         },{
             xtype:'fieldcontainer',
-            combineLabels:true,
-            combineErrors:true,
+            fieldLabel:'职业',
+            combineLabels:true, //如果设置为 true, 并且没有指定 fieldLabel, 则 field container 将通过包含的所有域的标签 自动(组合)生成其标签.
+            combineErrors:true, //如果设置为 true, 则 field 容器自动将其包含的所有属性域的校验错误组合为单个错误信息, 并显示到 配置的 msgTarget 上.
             labelWidth: 80,
             layout:'hbox',
             defaults:{allowBlank:false,
@@ -61,7 +62,7 @@ Ext.onReady(function(){
         },{
             xtype:'fieldset',
             title: '联系信息',
-            collapsible: true,
+            collapsible: true, //能够关闭
 	        defaultType: 'textfield',
 	        defaults: {anchor: '90%'},
 	        layout: 'anchor',
@@ -96,7 +97,7 @@ Ext.onReady(function(){
                 fieldLabel: '邮箱'
             }] 
         },{
-            xtype:'htmleditor',
+            xtype:'htmleditor', //多行文本编辑器
             name:'remark',
             fontFamilies:['宋体','楷体','隶书','行楷'],
             height:150

@@ -5,11 +5,11 @@
   <head>
     <title>面板</title>
     <%@ include file="../ext.jsp" %>
-    <script type="text/javascript" src="panel.js"></script>
+    <script type="text/javascript" src="layout2.js"></script>
   </head>
   
   <body>
-  	<div id="panchor"></div>
-  	<div id="pabsolute"></div>
+  <div id="pabsolute"></div>
+
   </body>
 </html>

@@ -1,4 +1,5 @@
 Ext.onReady(function(){
+    //User DataModel类
     Ext.regModel('Ext.us.User',{
         fields:[{
             name:'username',type:'auto'
@@ -6,6 +7,7 @@ Ext.onReady(function(){
             name:'password',type:'auto'
         }]
     });
+    //Type DataModel类
     Ext.regModel('Ext.us.Type',{
        fields:[{
             name:'id',type:'auto'
@@ -13,6 +15,8 @@ Ext.onReady(function(){
             name:'desc',type:'auto'
         }]
     });
+
+    //Store实例 内存代理 自动加载
     var store=Ext.create('Ext.data.Store',{
         model:'Ext.us.Type',
         proxy:{type:'memory'},
@@ -24,11 +28,13 @@ Ext.onReady(function(){
             {id:'004',desc:'债券类'},
             {id:'005',desc:'指数类'}]
     });
-    
+
+    //Bank DataModel类
      Ext.regModel('Bank',{
 	     fields:[{name:'BANK_ORG_ID',type:'string'},
 	             {name:'BANK_ORG_NAME',type:'string'}]
      });
+     //Store实例 ajax代理
     var tstore=Ext.create('Ext.data.Store',{
         model:'Bank',
         pageSize:20,
@@ -44,43 +50,27 @@ Ext.onReady(function(){
      });
      
     var task=new Ext.util.DelayedTask();
+
+    //实例化一个User的对象
     var user=Ext.create('Ext.us.User',{username:'119@qq.com',password:'123435'});
     
-            // 定义函数: 验证再次输入的密码是否一致
+            // 定义函数: 验证再次输入的密码是否一致 为Ext.form.VTypes对象扩展一个验证配置
+           //Ext.form.VTypes 单例对象 它包含了一个常用的字段验证的函数集合并且提供一种可以创建重用的字段验证机制
            Ext.apply(Ext.form.VTypes, {
-              /* confirmPwd: function (value, field) {
-                    // field 的 confirmPwd 属性
-                  if (field) {
-                      var first = field.first;
-                      var second = field.second;
-                     
-                     var firstField = Ext.getCmp(first);
-                     var seconField = Ext.getCmp(second);
-                    var firstPwd = firstField.getValue();
-                   var secondPwd = seconField.getValue();
-                  if (firstPwd == secondPwd) {
-                      return true;
-                   } else {
-                        return false;
-                    }
-                }
-           },*/
              confirmPwd: function (value, field) {
                     // field 的 confirmPwd 属性
                   if (field) {
                       var first = field.confirmPwd.first;
-                      var second = field.confirmPwd.second;
-                     
+
                      var firstField = Ext.getCmp(first);
-                     var seconField = Ext.getCmp(second);
                     var firstPwd = firstField.getValue();
-                   var secondPwd = seconField.getValue();
-                  if (firstPwd == secondPwd) {
+                  if (firstPwd == value) {
                       return true;
                    } else {
                         return false;
                     }
                 }
+                  console.info(value);
            },
            confirmPwdText:'两次输入的密码不一致！'
       });
@@ -89,13 +79,13 @@ Ext.onReady(function(){
     var textForm=Ext.create('Ext.form.Panel',{
         width:400,
         height:350,
-        bodyStyle:'padding:5 5 5 5',
-        frame:true,
+        bodyStyle:'padding:5 5 5 5', //用户自定义CSS样式被应用到panel的body元素上  String/Object/Function
+        frame:true, //true 为 Panel 填充画面,默认为false.
         title:'登录表单',
-        renderTo:'textForm',
-        defaultType:'textfield',
+        renderTo:'textForm', //被渲染到 String/HTMLElement/Ext.Element
+        defaultType:'textfield', //默认子字段组件的类型为textfield
         buttonAlign:'center',
-        defaults:{
+        defaults:{           //子组件的默认配置选项
             labelSeparator:':',
             labelWidth:55,
             width:250,
@@ -108,7 +98,7 @@ Ext.onReady(function(){
 	             fieldLabel:'用户名',
 	             id:'usr_nm',
 	             name:'username',
-	             selectOnFocus:true,
+	             selectOnFocus:true, //true当表单项获得输入焦点时，将会自动选中所有存在的表单项文本
                  regex:/^[a-z\d]+(\.[a-z\d]+)*@([\da-z](-[\da-z])?)+(\.{1,2}[a-z]+)+$/,
                  regexText:'非法邮箱地址',
 	             grow:true//自动伸缩
@@ -128,18 +118,18 @@ Ext.onReady(function(){
                  id:'rePwd',
                  name:'repassword',
                  inputType:'password',
-                 vtype:'confirmPwd',
-               /*  listeners:{
+                 vtype:'confirmPwd', //验证时会调用Ext.form.VTypes的confirmPwd方法 传入value值和本filed对象
+               //延时验证有点问题
+                /* listeners:{
                     change:function(){
-                        task.delay(1000,function(){
-                            Ext.form.VTypes.confirmPwd(this.getValue(),this.confirmPwd)
+                        task.delay(5000,function(){
+                            Ext.form.VTypes.confirmPwd(this.getValue(),this);
                         },
                         this);
                     }
              },*/
               confirmPwd: {
-                             first:'logPwd',
-                             second:'rePwd'
+                             first:'logPwd'
              }},{
                  xtype:'radiogroup',
                  fieldLabel:'性别',
@@ -166,7 +156,7 @@ Ext.onReady(function(){
                 xtype:'numberfield',
                 fieldLabel:'整数微调',
                 name:'num1',
-                allowDecimals:false,
+                allowDecimals:false, //禁用小数
                 baseChars:'025789',//只能输入2578这几个数
                 hideTrigger:true,//设置为true时隐藏trigger按钮，只显示为基础的文本框
                 maxValue: 99,
@@ -178,10 +168,10 @@ Ext.onReady(function(){
                 name:'num2',
                 emptyText:'请输入小数',
                 step:0.5,//步长
-                decimalPrecision:2
+                decimalPrecision:2 //小数点后允许的最大精度
              },{
                 xtype:'combobox',
-                listConfig:{
+                listConfig:{ //N组可选的配置属性将被传递到的Ext.view.BoundList(内部使用的数据视图)的构造函数。 可以包含BoundList有效的任何配置
                     emptyText:'没有找到',
                     maxHeight:200
                 },
@@ -189,16 +179,16 @@ Ext.onReady(function(){
                 width:340,
                 name:'type',
                 queryModel:'remote',
-                minChars:2,
+                minChars:2,//用户必须自动完成输入之前且typeAhead激活的字符最小数目
                 store:tstore,
                 valueField:'BANK_ORG_ID',
                 displayField:'BANK_ORG_NAME',
-                queryParam:'type',
-                queryDelay:400,
-                multiSelect:true,
-                triggerAction:'all'
-                /*forceSelection:true,//只能输入store中的值
-                typeAhead:true,
+                queryParam:'type', //store传递键入字符串使用的参数名
+                queryDelay:400, //时间以毫秒为单位长度从开始键入到发送查询到过滤器之间延迟下拉列表
+                multiSelect:true, //多选
+                triggerAction:'all' //触发器被点击时执行的操作
+                /*forceSelection:true,//只能输入store中的值 指定allQuery配置项执行查询
+                typeAhead:true, //为true时，配置了延迟（typeAheadDelay）后，如果匹配到已知的值将填充和自动选择键入的文本其余部分
                 value:'004'*/
              }],
               dockedItems: [{
@@ -220,6 +210,7 @@ Ext.onReady(function(){
                     Ext.MessageBox.alert('严重','无效的表单');
                    var fd1=baseForm.findField("username"),fd2=baseForm.findField("password");
                    console.info(fd1.getName()+"|"+fd1.getValue()+";"+fd2.getName()+"|"+fd2.getValue());
+                   //得到表单的所有值的对象
                    console.info(textForm.getValues());
                    
                 }

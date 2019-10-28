@@ -1,14 +1,14 @@
 Ext.onReady(function(){
     var navigate =function(panel,direction){
             var layout=panel.getLayout();
-            layout[direction]();
+            layout[direction](); //执行此布局的next或prev方法 进行卡片切换
             Ext.getCmp('move-prev').setDisabled(!layout.getPrev());
             Ext.getCmp('move-next').setDisabled(!layout.getNext());
     }
         Ext.create('Ext.panel.Panel',{
             width:'100%',
             height:800,
-            layout: 'border',
+            layout: 'border', //内部会生成一个Ext.layout.container.Border类的一个布局对象
             title:'layout布局',
             renderTo:Ext.getBody(),
             defaults:{
@@ -18,14 +18,12 @@ Ext.onReady(function(){
                 xtype:'panel',
                 region:'east',
 	            width: '30%',
-	           //height: 400,
 	            title: "锚点布局",
-	            layout: 'anchor',
+	            layout: 'anchor', //东边的子面板 进行锚点布局
                 split: true, 
-	            //renderTo: 'panchor',
 	            items:[{
 	                 xtype: 'panel',
-	                 title: '75% 宽 and 20% 高',
+	                 title: '75% 宽 and 20% 高', //占父面板的宽和高的百分数
 	                 anchor: '75% 20%'
 	            },{
 	                 xtype: 'panel',
@@ -42,9 +40,9 @@ Ext.onReady(function(){
                 title:'手风琴',
                 width: '20%',
                 split: true, 
-                layout: {
+                layout: {  //西边的子面板 进行手风琴布局
 			        type: 'accordion',
-			        titleCollapse: false
+			        titleCollapse: false //'true' 表示允许通过点击标题栏的任意位置来展开/收缩子项Panel
 			    },
                 items:[{
 			        title: 'Panel 1',
@@ -60,7 +58,7 @@ Ext.onReady(function(){
                 xtype:'panel',
                 region:'north',
                 height:'20%',
-                layout:'card',
+                layout:'card', //北部的子面板 进行卡片布局
                 title:'card布局',
                 split: true,
                 bodyStyle: 'padding:5px',//内容内边距
@@ -97,8 +95,9 @@ Ext.onReady(function(){
                 xtype:'panel',
                 region:'south',
                 height:'20%',
-                layout:'column',
+                layout:'column', //南部的子面板 进行列布局
                 title:'column布局',
+                // 第一列会占用宽度120px, 而后3列会填满容器剩下的宽度,宽度进行columnWidth的配置分配
                 items:[{
                     title:'col_1',
                     html:'第一列',
@@ -118,7 +117,7 @@ Ext.onReady(function(){
                 }]
             },{
                 xtype:'panel',
-                region:'center',
+                region:'center', //中心的子面板 进行表格布局
                 title:'表格布局',
                 margins: '5 5 5 5',//与相邻组件外边距
 		        layout: {
@@ -142,42 +141,4 @@ Ext.onReady(function(){
 			    }]
             }]
         })
-        
-     /*   Ext.create('Ext.form.Panel', {
-		    title: '绝对布局',
-		    width: 300,
-		    height: 275,
-		    layout: {
-		        type: 'absolute'
-		    },
-		    defaultType: 'textfield',
-		    items: [{
-		        x: 10,
-		        y: 10,
-		        xtype:'label',
-		        text: 'Send To:'
-		    },{
-		        x: 80,
-		        y: 10,
-		        name: 'to',
-		        anchor:'90%'  
-		    },{
-		        x: 10,
-		        y: 40,
-		        xtype:'label',
-		        text: 'Subject:'
-		    },{
-		        x: 80,
-		        y: 40,
-		        name: 'subject',
-		        anchor: '90%'  
-		    },{
-		        x:0,
-		        y: 80,
-		        xtype: 'textareafield',
-		        name: 'msg',
-		        anchor: '100% 100%'  
-		    }],
-		    renderTo: 'pabsolute'
-    });*/
 })

@@ -91,30 +91,42 @@ Ext.onReady(function(){
 
     //override 没整明白
     /* Ext.define('My.app.Panel', {
-         extend: 'Ext.panel.Panel',
-         config:{name:'extnme',age:23},
-         constructor: function (config) {
-             this.setName(config.name);
-             this.callParent(arguments); // 调用Ext.panel.Panel的构造
-         },
-
-         statics: {
-             method: function () {
-                 return 'abc';
-             }
-         }
-     });
+        extend: 'Ext.panel.Panel',
+        config:{name:'extnme',age:23},
+        constructor: function (config) {
+            alert("I'm going to be a cat!"+config.name);
+            this.callParent(arguments); // 调用Ext.panel.Panel的构造
+        }
+    });
 
      Ext.define('My.app.PanelPart2', {
          override: 'My.app.Panel',
 
          constructor: function (config) {
+             alert("I'm going to be a cat!");
              this.callParent(arguments); // 调用 My.app.Panel's 的构造
+             alert("Meeeeoooowwww");
          }
      });
-     var panelPart2=Ext.create('My.app.PanelPart2',{name:'extjsname',age:56});
-     console.info(panelPart2.name);
-     console.info(panelPart2);*/
+     var panelPart2=Ext.create('My.app.PanelPart2',{name:'extjsname',age:56});*/
+
+    Ext.define('My.Cat', {
+        constructor: function() {
+            alert("I'm a cat!");
+        }
+    });
+
+    My.Cat.override({
+        constructor: function() {
+            alert("I'm going to be a cat!");
+
+            this.callParent(arguments);
+
+            alert("Meeeeoooowwww");
+        }
+    });
+
+    var kitty = new My.Cat();
 
     //记录器
     Ext.define('Logger', {

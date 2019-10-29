@@ -10,6 +10,6 @@
                 totalProperty:'total'
             }
         },
-        groupField:'sex',
+        groupField:'sex', //以sex分组
         autoLoad:true
     });

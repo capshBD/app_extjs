@@ -3,7 +3,7 @@ Ext.define('datao.view.PropertyList',{
 	title:'属性表格',
 	alias:'widget.prolist',
 	width:300,
-	customRenderers:{
+	customRenderers:{ //定制规则渲染器
 		boy:function(value){
 			return value?'是':'否'
 		},
@@ -11,7 +11,7 @@ Ext.define('datao.view.PropertyList',{
             return value;
         }
 	},
-    source:{
+    source:{//属性的每行的属性以及值
              boy:false,
             'email-width':100
         }

@@ -2,22 +2,14 @@ Ext.define('datao.controller.Controller',{
           extend:'Ext.app.Controller',
           init : function(){
 		        this.control({
-		            'menulist':{
-		                boxready:function(t, e,Opts){
-		                	console.info(t);
-		                    tree = t;
-		                },
-		                beforeload:function(){
-		                    Ext.apply(tree.getStore().proxy.extraParams,{
-		                        node:'root'
-		                    });
-                         /* tree.getStore().setProxy({
-                            type:'ajax',
-                            url:pathUrl+'/menuInfo.action',
-                            extraParams:{pid:tree.getRootNode().data.id}
-                          });*/
-		                }
-		            },
+							 /* Ext.apply(tree.getStore().proxy.extraParams,{ 设置代理的完全参数值
+                                   node:'root'
+                               });
+                            tree.getStore().setProxy({ 设置代理对象的请求参数
+                               type:'ajax',
+                               url:pathUrl+'/menuInfo.action',
+                               extraParams:{pid:tree.getRootNode().data.id} 获取节点上的数据node.data.attr
+                             });*/
                    'menulist button[id=collAll]':{
 	                    click:function(b){
 	                        b.ownerCt.ownerCt.collapseAll();
@@ -29,8 +21,8 @@ Ext.define('datao.controller.Controller',{
                         }
                    },
                     'menulist button[id=add]':{
-                        click:function(){
-                          /*  var checked=tree.getChecked();
+                        click:function(b){
+                            var checked=b.ownerCt.ownerCt.getChecked();
                             if(checked.length!=1){
                                 Ext.Msg.alert('警告','必选且只能选择一个节点');
                                 return;
@@ -47,12 +39,12 @@ Ext.define('datao.controller.Controller',{
                             id:'FDI90_20_20',
                             text:'操作日志',
                             leaf:true
-                           }]);*/
+                           }]);
                         }
                    },
                     'menulist button[id=remove]':{
                         click:function(b){
-                            var checkeds=b.ownerCt.ownerCt.getChecked();
+                            var checkeds=b.ownerCt.ownerCt.getChecked(); //Ext.data.NodeInterface[]类型的数组
                             if(!checkeds.length){
                                 Ext.Msg.alert('警告','至少选择一个');
                                 return;
@@ -71,7 +63,7 @@ Ext.define('datao.controller.Controller',{
 				            success:function(response,option){
 				                var data=Ext.JSON.decode(response.responseText);
 				                Ext.MessageBox.alert('信息',data.info);
-				                b.ownerCt.ownerCt.getRootNode().removeAll(false);
+				                b.ownerCt.ownerCt.getRootNode().removeAll(false);//得到根节点,并删除他的子节点
 				                b.ownerCt.ownerCt.getStore().load();
 				              }
 				            })
@@ -84,10 +76,10 @@ Ext.define('datao.controller.Controller',{
                                 Ext.Msg.alert('警告','至少选择一个');
                                 return;
                             }
-                            b.ownerCt.ownerCt.setCopyNodes(Ext.clone(nodes));
+                            b.ownerCt.ownerCt.setCopyNodes(Ext.clone(nodes));//treePanel存放设置拷贝的节点
                             for(var i=0;i<nodes.length;i++){
                                 nodes[i].data.checked=false;
-                                nodes[i].updateInfo();
+                                nodes[i].updateInfo();//更新本节点的一般数据，像isFirst, isLast, depth。这个 方法在一个节点移动后内部调用。
                             }
                         }
                    },
@@ -98,28 +90,37 @@ Ext.define('datao.controller.Controller',{
                                 Ext.Msg.alert('警告','只能选择一个');
                                 return;
                             }
-                           var childNodes=b.ownerCt.ownerCt.getCopyNodes();
+                           var childNodes=b.ownerCt.ownerCt.getCopyNodes();//treePanel获取拷贝的节点
                            node[0].appendChild(childNodes);
                         }
                    },
                    'menulist':{
+		            	//节点check状态被改变
                         checkchange:function(node,checked){
+                        	//从本节点开始沿着树往下在每个节点上调用指定函数。函数的参数 是args或者本节点
                             node.cascadeBy(function(child){
                             	child.set('checked',checked);
                             });
-                            if(node.parentNode&&!checked)
-                            	node.parentNode.set('checked',false);
-                            else if(node.parentNode&&checked){
-                            	var childNodes=node.parentNode.childNodes;
-                            	var pCheck=true;
-                            	for (var i = 0; i < childNodes.length; i++) {
-                            		if(!childNodes[i].get('checked')){
-                            			pCheck=false;
-                            			break;
-                            		}
-                            	}
-                            	node.parentNode.set('checked',pCheck);
-                            }
+							setParentChecked(node);
+                            function setParentChecked(node){
+                            	if(!node)
+                            		return;
+								if(node.parentNode&&!checked)
+									node.parentNode.set('checked',false);
+								else if(node.parentNode&&checked){
+									var childNodes=node.parentNode.childNodes;
+									var pCheck=true;
+									for (var i = 0; i < childNodes.length; i++) {
+										if(!childNodes[i].get('checked')){
+											pCheck=false;
+											break;
+										}
+									}
+									node.parentNode.set('checked',pCheck);
+								}
+								setParentChecked(node.parentNode);
+							}
+
                         },
                     	'itemcontextmenu':function(view,record,item,index,e,eOpts){
                     		//禁用浏览器的右键相应事件  

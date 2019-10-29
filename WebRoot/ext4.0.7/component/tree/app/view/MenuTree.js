@@ -1,3 +1,7 @@
+/**
+ * TreePanel的视图 Ext.tree.View
+ * TreePanel的Store Ext.data.TreeStore 是一种NodeInterface类型的树形结构数据
+ */
 Ext.define('datao.view.MenuTree',{
             extend:'Ext.tree.Panel',
             alias:'widget.menulist',
@@ -32,7 +36,7 @@ Ext.define('datao.view.MenuTree',{
 		   },
             viewConfig:{
                 plugins:{
-                    ptype:'treeviewdragdrop'
+                    ptype:'treeviewdragdrop' //插件类型
                     //appendOnly:true
                 },
                 listeners:{
